@@ -5,11 +5,13 @@ a app for vocabulary study.
 ---项目过程---
 
 2016.09.23之前
-完成登录、注册、获取词汇列表功能.
+<p>完成登录、注册、获取词汇列表功能.</p>
 
 2016.09.23
+<p>
 完成从服务器获取图片.
 参考: http://blog.csdn.net/guolin_blog/article/details/17482165
 对文章中使用的三种Volley获取图片的方式进行简单封装.
 但是,后来因为缓存问题,最终使用了Picasso来加载图片。
+</p>
 
