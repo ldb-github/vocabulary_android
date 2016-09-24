@@ -10,7 +10,10 @@
     <dimen name="tile_padding">8dp</dimen>
     <dimen name="tile_height">160dp</dimen>
     <dimen name="article_titles">20sp</dimen>
+    <dimen name="article_keylines">72dp</dimen>
     <dimen name="md_keylines">16dp</dimen>
 
+
+    <dimen name="app_bar_height">256dp</dimen>
 
 </resources>

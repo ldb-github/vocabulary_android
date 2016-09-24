@@ -1,5 +1,6 @@
 package com.ldb.vocabulary.android.category;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.ldb.vocabulary.android.R;
 import com.ldb.vocabulary.android.data.Category;
+import com.ldb.vocabulary.android.vocabulary.VocabularyActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -118,6 +120,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
 
     private class CategoryHolder extends RecyclerView.ViewHolder{
 
+        private Category mCategory;
         public ImageView picture;
         public TextView name;
         public CategoryHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -127,9 +130,13 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = VocabularyActivity.newIntent(getActivity(), mCategory);
+                    startActivity(intent);
                 }
             });
+        }
+        public void setCategory(Category category){
+            mCategory = category;
         }
     }
 
@@ -149,6 +156,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
         @Override
         public void onBindViewHolder(CategoryHolder holder, int position) {
             Category category = mCategoryList.get(position);
+            holder.setCategory(category);
             // 目前图片请求使用的是Volley，但是由于RequestQueue的创建需要Context，而Repository是不会
             // 与特定的Context关联，也就无法为RequestQueue提供固定的Context，这样RequestQueue就只好是局部变量，
             // 通过参数为它提供Context，最终导致无法使用ImageLoader的Cache功能。又不想把Volley直接
