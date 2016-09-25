@@ -1,6 +1,6 @@
 # vocabulary_android
 <p>a app for vocabulary study.</p>
-<p>这里只是Android客户端代码，服务端代码使用java servlet,代码见(vocabulary_server待上传)</p>
+<p>这里只是Android客户端代码，服务端代码使用java servlet,代码见vocabulary_server</p>
 
 ---项目过程---
 
@@ -16,3 +16,7 @@
 <p>主要添加了VocabularyActivity, VocabularyFragment，完成词汇列表.</p>
 <p>参考：<a href="https://guides.codepath.com/android/Handling-Scrolls-with-CoordinatorLayout">Handling Scrolls with CoordinatorLayout</a> </p>
 <p>实现Toolbar的添加，折叠等效果</p>
+
+2016.09.25
+<p>主要完成从服务器获取词汇列表.</p>
+<p>服务端代码vocabulary_server已上传.</p>
