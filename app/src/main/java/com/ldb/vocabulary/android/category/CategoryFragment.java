@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,8 @@ import java.util.List;
  */
 public class CategoryFragment extends Fragment implements CategoryContract.View{
 
+    private static final String TAG = CategoryFragment.class.getSimpleName();
+
     private RecyclerView mCategoryView;
     private CategoryContract.Presenter mPresenter;
     private int mPage;
@@ -43,12 +46,13 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mPresenter.start();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.category_fragment, container, false);
 
         mCategoryView = (RecyclerView) view.findViewById(R.id.category_recycle_view);
@@ -56,16 +60,9 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         mCategoryView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         mCategoryView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
-        setAdapter();
+        mCategoryView.setAdapter(new CategoryAdapter(mCategoryList));
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.start();
     }
 
     @Override
@@ -80,7 +77,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
         switch (id){
             case R.id.category_menu_refresh:
                 mPage = 1;
-                mPresenter.getCategoryList(1, null, null);
+                mPresenter.getCategoryList(mPage, null, null);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -88,12 +85,9 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
 
     @Override
     public void updateDataSet(List<Category> categoryList) {
-        if(mPage > 1){
-            mCategoryList.addAll(categoryList);
+        mCategoryList.addAll(categoryList);
+        if(mCategoryView != null){
             mCategoryView.getAdapter().notifyDataSetChanged();
-        }else{
-            mCategoryList = categoryList;
-            setAdapter();
         }
     }
 
@@ -105,12 +99,6 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
     @Override
     public void setPresenter(CategoryContract.Presenter presenter) {
         mPresenter = presenter;
-    }
-
-    private void setAdapter(){
-        if(isAdded()){
-            mCategoryView.setAdapter(new CategoryAdapter(mCategoryList));
-        }
     }
 
     private void showError(String error){

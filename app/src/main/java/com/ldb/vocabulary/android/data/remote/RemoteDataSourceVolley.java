@@ -125,6 +125,21 @@ public class RemoteDataSourceVolley implements RemoteDataSource {
         mNetworkRequest.imageRequest(context, url, imageView, maxWidth, maxHeight, defaultImage, errorImage);
     }
 
+    @Override
+    public String getVocabularyList(@NonNull Context context, String categoryId, int page, RequestCallback callback) {
+        String url = BASE_URI.buildUpon()
+                .appendPath(CommunicationContract.KEY_CATEGORY_PATH)
+                .appendPath(CommunicationContract.METHOD_LIST_VOCABULARY)
+                .appendQueryParameter(CommunicationContract.KEY_CATEGORY_ID, categoryId)
+                .appendQueryParameter(CommunicationContract.KEY_PAGE, page + "")
+                .build().toString();
+        mNetworkRequest.stringRequest(context, url, callback);
+        return null;
+    }
+
+
+
+
     /**
      * 获取设备信息
      * @param context

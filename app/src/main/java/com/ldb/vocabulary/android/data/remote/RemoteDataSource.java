@@ -62,4 +62,15 @@ public interface RemoteDataSource {
      */
     public void getImageForView(@NonNull Context context, String url, ImageView imageView, int maxWidth,
                                 int maxHeight, int defaultImage, int errorImage);
+
+    /**
+     * 获取词汇列表
+     * @param context
+     * @param categoryId
+     * @param page
+     * @param callback
+     * @return
+     */
+    public String getVocabularyList(@NonNull final Context context, String categoryId, int page,
+                                     RequestCallback callback);
 }

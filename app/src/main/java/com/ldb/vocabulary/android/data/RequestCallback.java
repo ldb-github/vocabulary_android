@@ -50,8 +50,18 @@ public interface RequestCallback {
 //        void onError(String error);
     }
 
+    /**
+     * 词汇分类列表回调借口
+     */
     public interface RequestCategoryListCallback extends RequestErrorCallback{
 
         void onSuccess(String message, List<Category> categoryList);
+    }
+
+    /**
+     * 词汇列表回调接口
+     */
+    public interface RequestVocabularyListCallback extends RequestErrorCallback{
+        void onSuccess(String message, List<Vocabulary> vocabularyList);
     }
 }

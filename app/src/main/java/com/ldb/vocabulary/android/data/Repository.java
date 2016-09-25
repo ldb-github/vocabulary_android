@@ -251,11 +251,11 @@ public class Repository {
                                     category.setName(jsonObject.getString(
                                             CommunicationContract.KEY_CATEGORY_NAME));
                                     category.setImage(jsonObject.getString(
-                                            CommunicationContract.KEY_IMAGE_URL));
+                                            CommunicationContract.KEY_CATEGORY_IMAGE));
                                     category.setFavoriteCount(jsonObject.getInt(
-                                            CommunicationContract.KEY_FAVORITY_COUNT));
+                                            CommunicationContract.KEY_CATEGORY_FAVORITE_COUNT));
                                     category.setWordCount(jsonObject.getInt(
-                                            CommunicationContract.KEY_WORD_COUNT));
+                                            CommunicationContract.KEY_CATEGORY_WORD_COUNT));
                                     categoryList.add(category);
                                 }
                             }
@@ -287,5 +287,58 @@ public class Repository {
             mRemoteDataSource.getImageForView(context, url, imageView, maxWidth, maxHeight, defaultImage, errorImage);
         }
 
+    }
+
+    public void getVocabularyList(@NonNull final Context context, String categoryId, int page,
+                                  final RequestCallback.RequestVocabularyListCallback callback){
+        if (!DeviceUtil.isNetworkConnected(context)) {
+            callback.onError(context.getResources().getString(R.string.network_not_connected));
+        }else {
+            mRemoteDataSource.getVocabularyList(context, categoryId, page, new RequestCallback() {
+                @Override
+                public void onResult(boolean isOk, String response) {
+                    if(isOk){
+                        try {
+                            JSONObject result = new JSONObject(response);
+                            int code = result.getInt(CommunicationContract.KEY_CODE);
+                            StringBuilder message = new StringBuilder(
+                                    result.getString(CommunicationContract.KEY_MESSAGE));
+                            List<Vocabulary> vocabularyList = new ArrayList<Vocabulary>();
+                            if(code == 0){
+                                if(result.has(CommunicationContract.KEY_VOCABULARY_LIST)) {
+                                    JSONArray categoryArray = result.getJSONArray(
+                                            CommunicationContract.KEY_VOCABULARY_LIST);
+                                    JSONObject jsonObject = new JSONObject();
+
+                                    for (int i = 0; i < categoryArray.length(); i++) {
+                                        jsonObject = categoryArray.getJSONObject(i);
+                                        Vocabulary vocabulary = new Vocabulary();
+                                        vocabulary.setId(jsonObject.getString(
+                                                CommunicationContract.KEY_VOCABULARY_ID));
+                                        vocabulary.setName(jsonObject.getString(
+                                                CommunicationContract.KEY_VOCABULARY_NAME));
+                                        vocabulary.setImage(jsonObject.getString(
+                                                CommunicationContract.KEY_VOCABULARY_IMAGE));
+                                        ;
+                                        vocabularyList.add(vocabulary);
+                                    }
+                                }
+                            }
+                            if(code == 0){
+                                callback.onSuccess(message.toString(), vocabularyList);
+                            }else{
+                                callback.onError(message.toString());
+                            }
+                        } catch (JSONException e) {
+                            callback.onError(
+                                    context.getResources().getString(R.string.parse_data_error));
+                        }
+
+                    }else {
+                        callback.onError(context.getResources().getString(R.string.request_error));
+                    }
+                }
+            });
+        }
     }
 }

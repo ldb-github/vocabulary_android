@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.ldb.vocabulary.android.R;
 import com.ldb.vocabulary.android.data.Category;
+import com.ldb.vocabulary.android.data.Injection;
+import com.ldb.vocabulary.android.data.Vocabulary;
 import com.squareup.picasso.Picasso;
 
 public class VocabularyActivity extends AppCompatActivity {
@@ -38,11 +40,13 @@ public class VocabularyActivity extends AppCompatActivity {
             mCategory = intent.getParcelableExtra(EXTRA_CATEGORY);
         }
 
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        VocabularyFragment fragment = (VocabularyFragment) getSupportFragmentManager().findFragmentById(R.id.container);
         if(fragment == null){
             fragment = VocabularyFragment.newInstance(mCategory);
             getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
         }
+
+        new VocabularyPresenter(this, Injection.provideVocabularyRepository(this), fragment);
 
     }
 

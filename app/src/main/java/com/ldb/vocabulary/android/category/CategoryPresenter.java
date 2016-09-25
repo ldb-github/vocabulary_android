@@ -1,6 +1,7 @@
 package com.ldb.vocabulary.android.category;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -21,7 +22,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     private Repository mRepository;
     private CategoryContract.View mView;
 
-    public CategoryPresenter(Context context, Repository repository, CategoryContract.View view){
+    public CategoryPresenter(@NonNull Context context, Repository repository, CategoryContract.View view){
         mContext = context;
         mRepository = repository;
         mView = view;
