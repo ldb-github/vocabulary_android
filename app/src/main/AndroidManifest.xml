@@ -24,11 +24,14 @@
         </activity>
         <activity android:name=".register.RegisterActivity">
         </activity>
-        <activity android:name=".vocabulary.VocabularyActivity"
+        <activity
+            android:name=".vocabulary.VocabularyActivity"
             android:parentActivityName=".main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".main.MainActivity" />
+                android:value=".main.MainActivity"/>
+        </activity>
+        <activity android:name=".categoryedit.CategoryEditActivity">
         </activity>
     </application>
 

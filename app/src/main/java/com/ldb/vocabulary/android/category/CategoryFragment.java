@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ldb.vocabulary.android.R;
+import com.ldb.vocabulary.android.categoryedit.CategoryEditActivity;
 import com.ldb.vocabulary.android.data.Category;
 import com.ldb.vocabulary.android.vocabulary.VocabularyActivity;
 import com.squareup.picasso.Picasso;
@@ -78,6 +79,10 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
             case R.id.category_menu_refresh:
                 mPage = 1;
                 mPresenter.getCategoryList(mPage, null, null);
+                return true;
+            case R.id.category_menu_add:
+                Intent intent = new Intent(getActivity(), CategoryEditActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
