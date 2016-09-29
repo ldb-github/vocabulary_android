@@ -34,6 +34,9 @@
     <string name="parse_register_date_error">注册时间错误</string>
 
 
+    <string name="category_edit_name_text">名称</string>
+    <string name="category_edit_image_text">图片</string>
+
     <string name="item_desc">The Palais Garnier which locates in Paris was built from 1861 for
         the Paris Opera.
     </string>

@@ -341,4 +341,23 @@ public class Repository {
             });
         }
     }
+
+    public void postCategory(@NonNull final Context context, List<PostParam> category,
+                             final RequestCallback callback){
+        if (!DeviceUtil.isNetworkConnected(context)) {
+            callback.onResult(false, context.getResources().getString(R.string.network_not_connected));
+        }else {
+            mRemoteDataSource.postCategory(context, category, new RequestCallback() {
+                @Override
+                public void onResult(boolean isOk, String response) {
+                    if(isOk){
+                        // TODO 解析数据
+
+                    }else{
+                        callback.onResult(false, response);
+                    }
+                }
+            });
+        }
+    }
 }

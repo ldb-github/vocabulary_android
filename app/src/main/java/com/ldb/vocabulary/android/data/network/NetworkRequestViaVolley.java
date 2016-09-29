@@ -16,7 +16,10 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ldb.vocabulary.android.base.BaseNetworkRequest;
+import com.ldb.vocabulary.android.data.PostParam;
 import com.ldb.vocabulary.android.data.RequestCallback;
+
+import java.util.List;
 
 /**
  * Created by lsp on 2016/9/22.
@@ -47,7 +50,7 @@ public class NetworkRequestViaVolley implements BaseNetworkRequest {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, volleyError.getMessage());
+//                Log.d(TAG, volleyError.getMessage());
                 callback.onResult(false, volleyError.getMessage());
             }
         });
@@ -148,6 +151,11 @@ public class NetworkRequestViaVolley implements BaseNetworkRequest {
         // TODO 删除日志
         Log.d(TAG, "imageRequestByNetworkImageView");
         imageView.setImageUrl(url, imageLoader);
+    }
+
+    @Override
+    public void postRequest(@NonNull Context context, String url, List<PostParam> postParams, RequestCallback callback) {
+        // TODO Volley实现post
     }
 
     /**

@@ -45,6 +45,7 @@ public class CommunicationContract {
     public static final String KEY_SORT_TYPE = "s_type";
     public static final String METHOD_LIST = "list";
     public static final String METHOD_LIST_VOCABULARY = "listv";
+    public static final String METHOD_ADD = "add";
 
     // Vocabulary
     public static final String KEY_VOCABULARY_LIST = "vocabulary";

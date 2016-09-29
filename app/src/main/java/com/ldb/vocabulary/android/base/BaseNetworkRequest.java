@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.ldb.vocabulary.android.data.PostParam;
 import com.ldb.vocabulary.android.data.RequestCallback;
+
+import java.util.List;
 
 /**
  * Created by lsp on 2016/9/22.
@@ -17,7 +20,7 @@ public interface BaseNetworkRequest {
      * @param url
      * @param callback
      */
-    void stringRequest(@NonNull Context context, String url, final RequestCallback callback);
+    void stringRequest(@NonNull Context context, String url, RequestCallback callback);
 
     /**
      * 图片类型请求
@@ -31,4 +34,7 @@ public interface BaseNetworkRequest {
      */
     void imageRequest(@NonNull Context context, String url, ImageView imageView, int maxWidth, int maxHeight,
                       int defaultImage, int errorImage);
+
+
+    void postRequest(@NonNull Context context, String url, List<PostParam> postParams, RequestCallback callback);
 }

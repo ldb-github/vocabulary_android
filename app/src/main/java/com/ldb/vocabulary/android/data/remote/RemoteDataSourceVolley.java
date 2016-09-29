@@ -16,13 +16,21 @@ import com.android.volley.toolbox.Volley;
 import com.ldb.vocabulary.android.base.BaseNetworkRequest;
 import com.ldb.vocabulary.android.data.CommunicationContract;
 import com.ldb.vocabulary.android.data.DeviceInfo;
+import com.ldb.vocabulary.android.data.PostParam;
 import com.ldb.vocabulary.android.data.RequestCallback;
+import com.ldb.vocabulary.android.data.network.NetworkRequestByPost;
+import com.ldb.vocabulary.android.data.network.NetworkRequestViaAsyncHttp;
 import com.ldb.vocabulary.android.data.network.NetworkRequestViaVolley;
 import com.ldb.vocabulary.android.utils.DeviceInfoUtil;
+
+import java.util.List;
 
 /**
  * 请求服务器数据，通过回调函数返回服务器传回的数据，并且不做任何处理，
  * 而是由请求者自己根据业务需求对数据进行处理。
+ *
+ * TODO 有几个方法还没有使用mNetworkRequest进行网络请求，需要调整
+ * TODO 这个类可能需要重新命名，现在的命名跟Volley关系密切
  * Created by lsp on 2016/9/17.
  */
 public class RemoteDataSourceVolley implements RemoteDataSource {
@@ -137,8 +145,19 @@ public class RemoteDataSourceVolley implements RemoteDataSource {
         return null;
     }
 
+    @Override
+    public void postCategory(@NonNull Context context, List<PostParam> category, RequestCallback callback) {
+        String url = BASE_URI.buildUpon()
+                .appendPath(CommunicationContract.KEY_CATEGORY_PATH)
+                .appendPath(CommunicationContract.METHOD_ADD)
+                .build().toString();
+//        NetworkRequestViaAsyncHttp postClient = new NetworkRequestViaAsyncHttp();
+//        postClient.postRequest(context, url, category, callback);
 
-
+        // 使用自定义的一个处理post请求的类
+        NetworkRequestByPost postClient = new NetworkRequestByPost();
+        postClient.postRequest(url, category, callback);
+    }
 
     /**
      * 获取设备信息

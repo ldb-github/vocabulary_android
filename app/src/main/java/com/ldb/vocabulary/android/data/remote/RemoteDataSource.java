@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.ldb.vocabulary.android.data.PostParam;
 import com.ldb.vocabulary.android.data.RequestCallback;
+
+import java.util.List;
 
 /**
  * Created by lsp on 2016/9/17.
@@ -73,4 +76,7 @@ public interface RemoteDataSource {
      */
     public String getVocabularyList(@NonNull final Context context, String categoryId, int page,
                                      RequestCallback callback);
+
+    public void postCategory(@NonNull final Context context, List<PostParam> category,
+                             RequestCallback callback);
 }
