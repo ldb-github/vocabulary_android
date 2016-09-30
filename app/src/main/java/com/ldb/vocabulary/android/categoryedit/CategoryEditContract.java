@@ -13,12 +13,20 @@ import java.util.List;
 public interface CategoryEditContract {
 
     interface View extends BaseView<Presenter> {
-//        void uploadCategory(List<Category> categoryList);
-//        void notifyError(String error);
+        /**
+         * 新增词汇类别回调
+         * @param isOk
+         * @param message
+         */
+        void onUploadCategory(boolean isOk, String message);
     }
 
     interface Presenter extends BasePresenter {
-
+        /**
+         * 新增词汇类别
+         * @param categoryName
+         * @param imagePath
+         */
         void uploadCategory(String categoryName, String imagePath);
     }
 }

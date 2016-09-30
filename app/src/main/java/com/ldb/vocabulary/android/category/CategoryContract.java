@@ -23,7 +23,7 @@ public interface CategoryContract {
         /**
          * 获取分类列表
          * @param page 请求页码，从1开始
-         * @param sort 排序方式：f收藏量，w词汇量；如果多种混合，则以逗号间隔
+         * @param sort 排序方式：f收藏量，w词汇量, t创建时间；如果多种混合，则以逗号间隔
          * @param sortType 排序类型：a升序，d降序；如果多种混合，则以逗号间隔，并且与sort一一对应
          */
         void getCategoryList(int page, String sort, String sortType);

@@ -113,13 +113,17 @@ public class RemoteDataSourceVolley implements RemoteDataSource {
     @Override
     public String getCategoryList(Context context, int page, String sort, String sortType,
                                   RequestCallback callback) {
-        String url = BASE_URI.buildUpon()
+        Uri.Builder builder = BASE_URI.buildUpon()
                 .appendPath(CommunicationContract.KEY_CATEGORY_PATH)
                 .appendPath(CommunicationContract.METHOD_LIST)
-                .appendQueryParameter(CommunicationContract.KEY_PAGE, page + "")
-                .appendQueryParameter(CommunicationContract.KEY_SORT, sort)
-                .appendQueryParameter(CommunicationContract.KEY_SORT_TYPE, sortType)
-                .build().toString();
+                .appendQueryParameter(CommunicationContract.KEY_PAGE, page + "");
+        if (sort != null && !sort.trim().isEmpty()) {
+            builder.appendQueryParameter(CommunicationContract.KEY_SORT, sort);
+        }
+        if (sortType != null && !sortType.trim().isEmpty()) {
+            builder.appendQueryParameter(CommunicationContract.KEY_SORT_TYPE, sortType);
+        }
+        String url = builder.build().toString();
         mNetworkRequest.stringRequest(context, url, callback);
         return null;
     }

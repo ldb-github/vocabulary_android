@@ -239,24 +239,25 @@ public class Repository {
                                     result.getString(CommunicationContract.KEY_MESSAGE));
                             List<Category> categoryList = new ArrayList<Category>();
                             if(code == 0){
-                                JSONArray categoryArray = result.getJSONArray(
-                                        CommunicationContract.KEY_CATEGORY_LIST);
-                                JSONObject jsonObject = new JSONObject();
-
-                                for(int i = 0; i < categoryArray.length(); i++){
-                                    jsonObject = categoryArray.getJSONObject(i);
-                                    Category category = new Category();
-                                    category.setId(jsonObject.getString(
-                                            CommunicationContract.KEY_CATEGORY_ID));
-                                    category.setName(jsonObject.getString(
-                                            CommunicationContract.KEY_CATEGORY_NAME));
-                                    category.setImage(jsonObject.getString(
-                                            CommunicationContract.KEY_CATEGORY_IMAGE));
-                                    category.setFavoriteCount(jsonObject.getInt(
-                                            CommunicationContract.KEY_CATEGORY_FAVORITE_COUNT));
-                                    category.setWordCount(jsonObject.getInt(
-                                            CommunicationContract.KEY_CATEGORY_WORD_COUNT));
-                                    categoryList.add(category);
+                                if(result.has(CommunicationContract.KEY_CATEGORY_LIST)) {
+                                    JSONArray categoryArray = result.getJSONArray(
+                                            CommunicationContract.KEY_CATEGORY_LIST);
+                                    JSONObject jsonObject = new JSONObject();
+                                    for (int i = 0; i < categoryArray.length(); i++) {
+                                        jsonObject = categoryArray.getJSONObject(i);
+                                        Category category = new Category();
+                                        category.setId(jsonObject.getString(
+                                                CommunicationContract.KEY_CATEGORY_ID));
+                                        category.setName(jsonObject.getString(
+                                                CommunicationContract.KEY_CATEGORY_NAME));
+                                        category.setImage(jsonObject.getString(
+                                                CommunicationContract.KEY_CATEGORY_IMAGE));
+                                        category.setFavoriteCount(jsonObject.getInt(
+                                                CommunicationContract.KEY_CATEGORY_FAVORITE_COUNT));
+                                        category.setWordCount(jsonObject.getInt(
+                                                CommunicationContract.KEY_CATEGORY_WORD_COUNT));
+                                        categoryList.add(category);
+                                    }
                                 }
                             }
                             if(code == 0){
@@ -351,8 +352,19 @@ public class Repository {
                 @Override
                 public void onResult(boolean isOk, String response) {
                     if(isOk){
-                        // TODO 解析数据
-
+                        try {
+                            JSONObject result = new JSONObject(response);
+                            int code = result.getInt(CommunicationContract.KEY_CODE);
+                            String message = result.getString(CommunicationContract.KEY_MESSAGE);
+                            if(code == 0){
+                                callback.onResult(true, message);
+                            }else{
+                                callback.onResult(false, message);
+                            }
+                        }catch (JSONException e){
+                            callback.onResult(false,
+                                    context.getResources().getString(R.string.parse_data_error));
+                        }
                     }else{
                         callback.onResult(false, response);
                     }

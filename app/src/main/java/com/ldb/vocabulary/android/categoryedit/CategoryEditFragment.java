@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -112,4 +113,23 @@ public class CategoryEditFragment extends Fragment implements CategoryEditContra
         startActivityForResult(intent, REQUEST_IMAGE);
     }
 
+    @Override
+    public void onUploadCategory(boolean isOk, String message) {
+        if(isOk){
+            // TODO 暂时先显示成功，之后应该弹框询问是增加词汇还是返回主界面
+            showMessage(message);
+        }else {
+            showError(message);
+        }
+    }
+
+    public void showError(String error) {
+        Snackbar.make(getView().findViewById(R.id.category_edit_snackbar_decor),
+                error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(String message) {
+        Snackbar.make(getView().findViewById(R.id.category_edit_snackbar_decor),
+                message, Snackbar.LENGTH_SHORT).show();
+    }
 }

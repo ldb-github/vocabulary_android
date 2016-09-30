@@ -55,11 +55,7 @@ public class CategoryEditPresenter implements CategoryEditContract.Presenter {
         mRepository.postCategory(mContext, postParams, new RequestCallback() {
             @Override
             public void onResult(boolean isOk, String response) {
-                if(isOk){
-                    Log.d(TAG, "Success to upload");
-                }else{
-                    Log.d(TAG, "Fail to upload");
-                }
+                mView.onUploadCategory(isOk, response);
             }
         });
     }

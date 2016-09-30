@@ -108,8 +108,9 @@ public class NetworkRequestByPost {
             requestData.flush();
             if(urlConnection.getResponseCode() == 200){
                 callback.onResult(true, urlConnection.getResponseMessage());
+            }else{
+                callback.onResult(false, urlConnection.getResponseMessage());
             }
-
         }finally {
             if(requestData != null){
                 requestData.close();
