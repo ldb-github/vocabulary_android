@@ -13,16 +13,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ldb.vocabulary.android.R;
-import com.ldb.vocabulary.android.category.CategoryContract;
 import com.ldb.vocabulary.android.data.Category;
 import com.ldb.vocabulary.android.data.Vocabulary;
+import com.ldb.vocabulary.android.vocabularyedit.VocabularyEditActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -63,10 +66,7 @@ public class VocabularyFragment extends Fragment implements VocabularyContract.V
         if(arg != null){
             mCategory = arg.getParcelable(ARG_CATEGORY);
         }
-        mPage = 1;
-        if(mCategory != null){
-            mPresenter.getVocabularyList(mCategory.getId(), mPage);
-        }
+        refresh();
     }
 
     @Nullable
@@ -130,19 +130,38 @@ public class VocabularyFragment extends Fragment implements VocabularyContract.V
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_vocabulary, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
             case android.R.id.home:
                 getActivity().finish();
                 return true;
+            case R.id.vocabulary_menu_refresh:
+                refresh();
+                return true;
+            case R.id.vocabulary_menu_add:
+                Intent intent = VocabularyEditActivity.newIntent(getActivity(),
+                        mCategory.getId(), mCategory.getSubIndex());
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void showError(String error){
-        Snackbar.make(getView().findViewById(R.id.coordinator),
-                error, Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    private void refresh(){
+        mPage = 1;
+        if(mCategory != null){
+            mPresenter.getVocabularyList(mCategory.getId(), mCategory.getSubIndex(), mPage);
+        }
     }
 
     private class VocabularyHolder extends RecyclerView.ViewHolder{

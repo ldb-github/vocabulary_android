@@ -32,26 +32,14 @@
 
     <string name="parse_data_error">服务器数据错误</string>
     <string name="parse_register_date_error">注册时间错误</string>
-
+    <string name="parse_category_create_time_error">类别创建时间错误</string>
 
     <string name="category_edit_name_text">名称</string>
     <string name="category_edit_image_text">图片</string>
 
-    <string name="item_desc">The Palais Garnier which locates in Paris was built from 1861 for
-        the Paris Opera.
-    </string>
-    <string name="detail_desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.test Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.
-    </string>
-    <string name="detail_location">"8 Rue Scribe, 75009 Paris, France"</string>
+    <string name="vocabulary_edit_name_text">名称</string>
+    <string name="vocabulary_edit_image_text">图片</string>
+
+    <string name="select_image_text">选择图片</string>
 
 </resources>

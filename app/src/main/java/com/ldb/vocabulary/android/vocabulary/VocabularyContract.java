@@ -18,6 +18,6 @@ public class VocabularyContract {
 
     interface Presenter extends BasePresenter{
 
-        void getVocabularyList(String categoryId, int page);
+        void getVocabularyList(String categoryId, int categoryIndex, int page);
     }
 }

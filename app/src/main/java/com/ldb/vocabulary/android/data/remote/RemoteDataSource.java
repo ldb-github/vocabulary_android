@@ -70,13 +70,29 @@ public interface RemoteDataSource {
      * 获取词汇列表
      * @param context
      * @param categoryId
-     * @param page
-     * @param callback
-     * @return
+     * @param categoryIndex
+     *@param page
+     * @param secondLan
+     * @param callback   @return
      */
-    public String getVocabularyList(@NonNull final Context context, String categoryId, int page,
-                                     RequestCallback callback);
+    public String getVocabularyList(@NonNull Context context, String categoryId, int categoryIndex, int page,
+                                    String secondLan, RequestCallback callback);
 
-    public void postCategory(@NonNull final Context context, List<PostParam> category,
+    /**
+     * 新增词汇分类
+     * @param context
+     * @param category
+     * @param callback
+     */
+    public void postCategory(@NonNull Context context, List<PostParam> category,
                              RequestCallback callback);
+
+    /**
+     * 新增词汇
+     * @param context
+     * @param vocabulary
+     * @param callback
+     */
+    public void postVocabulary(@NonNull Context context, List<PostParam> vocabulary,
+                               RequestCallback callback);
 }

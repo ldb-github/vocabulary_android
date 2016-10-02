@@ -138,12 +138,15 @@ public class RemoteDataSourceVolley implements RemoteDataSource {
     }
 
     @Override
-    public String getVocabularyList(@NonNull Context context, String categoryId, int page, RequestCallback callback) {
+    public String getVocabularyList(@NonNull Context context, String categoryId, int categoryIndex, int page,
+                                    String secondLan, RequestCallback callback) {
         String url = BASE_URI.buildUpon()
                 .appendPath(CommunicationContract.KEY_CATEGORY_PATH)
                 .appendPath(CommunicationContract.METHOD_LIST_VOCABULARY)
                 .appendQueryParameter(CommunicationContract.KEY_CATEGORY_ID, categoryId)
+                .appendQueryParameter(CommunicationContract.KEY_CATEGORY_INDEX, categoryIndex + "")
                 .appendQueryParameter(CommunicationContract.KEY_PAGE, page + "")
+                .appendQueryParameter(CommunicationContract.KEY_VOCABULARY_SECOND_LANGUAGE, secondLan)
                 .build().toString();
         mNetworkRequest.stringRequest(context, url, callback);
         return null;
@@ -161,6 +164,20 @@ public class RemoteDataSourceVolley implements RemoteDataSource {
         // 使用自定义的一个处理post请求的类
         NetworkRequestByPost postClient = new NetworkRequestByPost();
         postClient.postRequest(url, category, callback);
+    }
+
+    @Override
+    public void postVocabulary(@NonNull Context context, List<PostParam> vocabulary, RequestCallback callback) {
+        String url = BASE_URI.buildUpon()
+                .appendPath(CommunicationContract.KEY_CATEGORY_PATH)
+                .appendPath(CommunicationContract.METHOD_ADD_VOCABULARY)
+                .build().toString();
+        NetworkRequestViaAsyncHttp postClient = new NetworkRequestViaAsyncHttp();
+        postClient.postRequest(context, url, vocabulary, callback);
+
+        // 使用自定义的一个处理post请求的类
+//        NetworkRequestByPost postClient = new NetworkRequestByPost();
+//        postClient.postRequest(url, vocabulary, callback);
     }
 
     /**

@@ -77,8 +77,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
         int id = item.getItemId();
         switch (id){
             case R.id.category_menu_refresh:
-                mPage = 1;
-                mPresenter.getCategoryList(mPage, null, null);
+                refresh();
                 return true;
             case R.id.category_menu_add:
                 Intent intent = new Intent(getActivity(), CategoryEditActivity.class);
@@ -109,6 +108,11 @@ public class CategoryFragment extends Fragment implements CategoryContract.View{
     private void showError(String error){
         Snackbar.make(getView().findViewById(R.id.category_snackbar_decor),
                 error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void refresh(){
+        mPage = 1;
+        mPresenter.getCategoryList(mPage, null, null);
     }
 
     private class CategoryHolder extends RecyclerView.ViewHolder{

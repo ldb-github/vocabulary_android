@@ -6,35 +6,30 @@
     android:orientation="vertical">
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/category_edit_snackbar_decor"
+        android:id="@+id/vocabulary_edit_snackbar_decor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/category_edit_name_text"/>
-
+        android:text="@string/vocabulary_edit_name_text"/>
+    
     <EditText
-        android:id="@+id/category_name"
+        android:id="@+id/vocabulary_name_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    
     <ImageView
-        android:id="@+id/image_for_upload"
+        android:id="@+id/vocabulary_image_for_upload"
         android:layout_width="@dimen/edit_image_width"
-        android:layout_height="@dimen/edit_image_width"/>
+        android:layout_height="@dimen/edit_image_height"
+        android:tag="@string/select_image_text"/>
 
     <Button
-        android:id="@+id/image_select"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="select"/>
-
-    <Button
-        android:id="@+id/image_upload"
+        android:id="@+id/upload_vocabulary_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="upload"/>
-</LinearLayout>
 
+</LinearLayout>

@@ -64,16 +64,19 @@ public class Repository {
                     if(isOk){
                         try {
                             JSONObject result = new JSONObject(response);
-                            int code = result.getInt("code");
-                            StringBuilder message = new StringBuilder(result.getString("message"));
-                            if(code == 400 && result.has("error")){
-                                JSONObject errorJson = result.getJSONObject("error");
-                                if(errorJson.has("phonenumber")){
-                                    message.append( ", " + errorJson.get("phonenumber"));
+                            int code = result.getInt(CommunicationContract.KEY_CODE);
+                            StringBuilder message = new StringBuilder(
+                                    result.getString(CommunicationContract.KEY_MESSAGE));
+                            if(code == CommunicationContract.VALUE_CODE_PARAMSERROR &&
+                                    result.has(CommunicationContract.KEY_ERROR)){
+                                JSONObject errorJson = result.getJSONObject(CommunicationContract.KEY_ERROR);
+                                if(errorJson.has(CommunicationContract.KEY_PHONENUMBER)){
+                                    message.append( ", " + errorJson.get(CommunicationContract.KEY_PHONENUMBER));
                                 }
                             }
-                            if(code == 0){
-                                callback.onSuccess(message.toString(), result.getString("checkcode"));
+                            if(code == CommunicationContract.VALUE_CODE_OK){
+                                callback.onSuccess(message.toString(),
+                                        result.getString(CommunicationContract.KEY_CHECKCODE));
                             }else{
                                 callback.onError(message.toString());
                             }
@@ -109,25 +112,29 @@ public class Repository {
                     if(isOk){
                         try {
                             JSONObject result = new JSONObject(response);
-                            int code = result.getInt("code");
-                            StringBuilder message = new StringBuilder(result.getString("message"));
+                            int code = result.getInt(CommunicationContract.KEY_CODE);
+                            StringBuilder message = new StringBuilder(
+                                    result.getString(CommunicationContract.KEY_MESSAGE));
                             //注册信息格式错误
-                            if(code == 400 && result.has("error")){
-                                JSONObject errorJson = result.getJSONObject("error");
-                                if(errorJson.has("username")){
-                                    message.append( ", " + errorJson.get("username"));
+                            if(code == CommunicationContract.VALUE_CODE_PARAMSERROR
+                                    && result.has(CommunicationContract.KEY_ERROR)){
+                                JSONObject errorJson = result.getJSONObject(CommunicationContract.KEY_ERROR);
+                                if(errorJson.has(CommunicationContract.KEY_USERNAME)){
+                                    message.append( ", " + errorJson.get(CommunicationContract.KEY_USERNAME));
                                 }
-                                if(errorJson.has("password")){
-                                    message.append( ", " + errorJson.get("password"));
+                                if(errorJson.has(CommunicationContract.KEY_PASSWORD)){
+                                    message.append( ", " + errorJson.get(CommunicationContract.KEY_PASSWORD));
                                 }
-                                if(errorJson.has("confirmpwd")){
-                                    message.append( ", " + errorJson.get("confirmpwd"));
+                                if(errorJson.has(CommunicationContract.KEY_CONFIRMPWD)){
+                                    message.append( ", " + errorJson.get(CommunicationContract.KEY_CONFIRMPWD));
                                 }
-                                if(errorJson.has("email")){
-                                    message.append( ", " + errorJson.get("email"));
+                                if(errorJson.has(CommunicationContract.KEY_EMAIL)){
+                                    message.append( ", " + errorJson.get(CommunicationContract.KEY_EMAIL));
                                 }
                             }
-                            callback.onResult(code == 0, message.toString());
+                            callback.onResult(
+                                    code == CommunicationContract.VALUE_CODE_OK,
+                                    message.toString());
                         } catch (JSONException e) {
                             callback.onResult(false,
                                     context.getResources().getString(R.string.parse_data_error));
@@ -160,44 +167,44 @@ public class Repository {
                     if(isOk){
                         try {
                             JSONObject result = new JSONObject(response);
-                            int code = result.getInt("code");
-                            StringBuilder message = new StringBuilder(result.getString("message"));
+                            int code = result.getInt(CommunicationContract.KEY_CODE);
+                            StringBuilder message = new StringBuilder(result.getString(CommunicationContract.KEY_MESSAGE));
                             Account account = null;
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 JSONObject accountJson = result.getJSONObject("account");
                                 account = new Account();
-                                if(accountJson.has("username")){
+                                if(accountJson.has(CommunicationContract.KEY_USERNAME)){
                                     // TODO 用户名
-                                    account.setUsername(accountJson.getString("username"));
+                                    account.setUsername(accountJson.getString(CommunicationContract.KEY_USERNAME));
                                 }
-                                if(accountJson.has("phonenumber")){
+                                if(accountJson.has(CommunicationContract.KEY_PHONENUMBER)){
                                     // TODO　手机号
-                                    account.setPhoneNumber(accountJson.getString("phonenumber"));
+                                    account.setPhoneNumber(accountJson.getString(CommunicationContract.KEY_PHONENUMBER));
                                 }
-                                if(accountJson.has("email")){
+                                if(accountJson.has(CommunicationContract.KEY_EMAIL)){
                                     // TODO　邮箱
-                                    account.setEmail(accountJson.getString("email"));
+                                    account.setEmail(accountJson.getString(CommunicationContract.KEY_EMAIL));
                                 }
-                                if(accountJson.has("token")){
+                                if(accountJson.has(CommunicationContract.KEY_TOKEN)){
                                     // TODO　令牌
-                                    account.setToken(accountJson.getString("token"));
+                                    account.setToken(accountJson.getString(CommunicationContract.KEY_TOKEN));
                                 }
-                                if(accountJson.has("state")){
+                                if(accountJson.has(CommunicationContract.KEY_STATE)){
                                     // TODO　状态
-                                    account.setState(accountJson.getString("state"));
+                                    account.setState(accountJson.getString(CommunicationContract.KEY_STATE));
                                 }
-                                if(accountJson.has("registertime")){
+                                if(accountJson.has(CommunicationContract.KEY_REGISTER_TIME)){
                                     // TODO　注册时间
                                     try {
                                         account.setRegisterTime(DateUtils.parseDateTime(
-                                                accountJson.getString("registertime")));
+                                                accountJson.getString(CommunicationContract.KEY_REGISTER_TIME)));
                                     } catch (ParseException e) {
                                         message.append(context.getResources()
                                                 .getString(R.string.parse_register_date_error));
                                     }
                                 }
                             }
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 callback.onSuccess(message.toString(), account);
                             }else{
                                 callback.onError(message.toString());
@@ -238,7 +245,7 @@ public class Repository {
                             StringBuilder message = new StringBuilder(
                                     result.getString(CommunicationContract.KEY_MESSAGE));
                             List<Category> categoryList = new ArrayList<Category>();
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 if(result.has(CommunicationContract.KEY_CATEGORY_LIST)) {
                                     JSONArray categoryArray = result.getJSONArray(
                                             CommunicationContract.KEY_CATEGORY_LIST);
@@ -248,19 +255,43 @@ public class Repository {
                                         Category category = new Category();
                                         category.setId(jsonObject.getString(
                                                 CommunicationContract.KEY_CATEGORY_ID));
+                                        category.setSubIndex(jsonObject.getInt(
+                                                CommunicationContract.KEY_CATEGORY_INDEX));
                                         category.setName(jsonObject.getString(
                                                 CommunicationContract.KEY_CATEGORY_NAME));
-                                        category.setImage(jsonObject.getString(
-                                                CommunicationContract.KEY_CATEGORY_IMAGE));
+                                        if(jsonObject.has(CommunicationContract.KEY_CATEGORY_IMAGE)) {
+                                            category.setImage(jsonObject.getString(
+                                                    CommunicationContract.KEY_CATEGORY_IMAGE));
+                                        }
+                                        if(jsonObject.has(CommunicationContract.KEY_CATEGORY_IMAGE_REMOTE)) {
+                                            category.setImageRemote(jsonObject.getString(
+                                                    CommunicationContract.KEY_CATEGORY_IMAGE_REMOTE));
+                                        }
                                         category.setFavoriteCount(jsonObject.getInt(
                                                 CommunicationContract.KEY_CATEGORY_FAVORITE_COUNT));
                                         category.setWordCount(jsonObject.getInt(
                                                 CommunicationContract.KEY_CATEGORY_WORD_COUNT));
+                                        if(jsonObject.has(CommunicationContract.KEY_CATEGORY_LANGUAGE)) {
+                                            category.setLanguage(jsonObject.getString(
+                                                    CommunicationContract.KEY_CATEGORY_LANGUAGE));
+                                        }
+                                        if(jsonObject.has(CommunicationContract.KEY_CATEGORY_CREATER)) {
+                                            category.setUsername(jsonObject.getString(
+                                                    CommunicationContract.KEY_CATEGORY_CREATER));
+                                        }
+                                        try {
+                                            category.setCreateTime(
+                                                    DateUtils.parseDateTime(jsonObject.getString(
+                                                            CommunicationContract.KEY_CATEGORY_CREATE_TIME)));
+                                        } catch (ParseException e) {
+                                            message.append(context.getResources()
+                                                    .getString(R.string.parse_category_create_time_error));
+                                        }
                                         categoryList.add(category);
                                     }
                                 }
                             }
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 callback.onSuccess(message.toString(), categoryList);
                             }else{
                                 callback.onError(message.toString());
@@ -290,12 +321,12 @@ public class Repository {
 
     }
 
-    public void getVocabularyList(@NonNull final Context context, String categoryId, int page,
-                                  final RequestCallback.RequestVocabularyListCallback callback){
+    public void getVocabularyList(@NonNull final Context context, String categoryId, int categoryIndex, int page,
+                                  String secondLan, final RequestCallback.RequestVocabularyListCallback callback){
         if (!DeviceUtil.isNetworkConnected(context)) {
             callback.onError(context.getResources().getString(R.string.network_not_connected));
         }else {
-            mRemoteDataSource.getVocabularyList(context, categoryId, page, new RequestCallback() {
+            mRemoteDataSource.getVocabularyList(context, categoryId, categoryIndex, page, secondLan, new RequestCallback() {
                 @Override
                 public void onResult(boolean isOk, String response) {
                     if(isOk){
@@ -305,7 +336,7 @@ public class Repository {
                             StringBuilder message = new StringBuilder(
                                     result.getString(CommunicationContract.KEY_MESSAGE));
                             List<Vocabulary> vocabularyList = new ArrayList<Vocabulary>();
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 if(result.has(CommunicationContract.KEY_VOCABULARY_LIST)) {
                                     JSONArray categoryArray = result.getJSONArray(
                                             CommunicationContract.KEY_VOCABULARY_LIST);
@@ -318,14 +349,16 @@ public class Repository {
                                                 CommunicationContract.KEY_VOCABULARY_ID));
                                         vocabulary.setName(jsonObject.getString(
                                                 CommunicationContract.KEY_VOCABULARY_NAME));
-                                        vocabulary.setImage(jsonObject.getString(
-                                                CommunicationContract.KEY_VOCABULARY_IMAGE));
+                                        if(jsonObject.has(CommunicationContract.KEY_VOCABULARY_IMAGE)) {
+                                            vocabulary.setImage(jsonObject.getString(
+                                                    CommunicationContract.KEY_VOCABULARY_IMAGE));
+                                        }
                                         ;
                                         vocabularyList.add(vocabulary);
                                     }
                                 }
                             }
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 callback.onSuccess(message.toString(), vocabularyList);
                             }else{
                                 callback.onError(message.toString());
@@ -356,7 +389,37 @@ public class Repository {
                             JSONObject result = new JSONObject(response);
                             int code = result.getInt(CommunicationContract.KEY_CODE);
                             String message = result.getString(CommunicationContract.KEY_MESSAGE);
-                            if(code == 0){
+                            if(code == CommunicationContract.VALUE_CODE_OK){
+                                callback.onResult(true, message);
+                            }else{
+                                callback.onResult(false, message);
+                            }
+                        }catch (JSONException e){
+                            callback.onResult(false,
+                                    context.getResources().getString(R.string.parse_data_error));
+                        }
+                    }else{
+                        callback.onResult(false, response);
+                    }
+                }
+            });
+        }
+    }
+
+    public void postVocabulary(@NonNull final Context context, List<PostParam> category,
+                             final RequestCallback callback){
+        if (!DeviceUtil.isNetworkConnected(context)) {
+            callback.onResult(false, context.getResources().getString(R.string.network_not_connected));
+        }else {
+            mRemoteDataSource.postVocabulary(context, category, new RequestCallback() {
+                @Override
+                public void onResult(boolean isOk, String response) {
+                    if(isOk){
+                        try {
+                            JSONObject result = new JSONObject(response);
+                            int code = result.getInt(CommunicationContract.KEY_CODE);
+                            String message = result.getString(CommunicationContract.KEY_MESSAGE);
+                            if(code == CommunicationContract.VALUE_CODE_OK){
                                 callback.onResult(true, message);
                             }else{
                                 callback.onResult(false, message);

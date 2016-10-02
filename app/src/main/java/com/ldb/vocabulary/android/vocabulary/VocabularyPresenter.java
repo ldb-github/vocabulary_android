@@ -28,9 +28,9 @@ public class VocabularyPresenter implements VocabularyContract.Presenter{
     }
 
     @Override
-    public void getVocabularyList(String categoryId, int page) {
-        mRepository.getVocabularyList(mContext, categoryId, page,
-                new RequestCallback.RequestVocabularyListCallback() {
+    public void getVocabularyList(String categoryId, int categoryIndex, int page) {
+        mRepository.getVocabularyList(mContext, categoryId, categoryIndex,
+                page, null, new RequestCallback.RequestVocabularyListCallback() {
             @Override
             public void onSuccess(String message, List<Vocabulary> vocabularyList) {
                 mView.updateDataSet(vocabularyList);

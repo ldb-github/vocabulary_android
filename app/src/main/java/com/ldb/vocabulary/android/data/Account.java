@@ -1,6 +1,5 @@
 package com.ldb.vocabulary.android.data;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**

@@ -1,4 +1,4 @@
-package com.ldb.vocabulary.android.categoryedit;
+package com.ldb.vocabulary.android.vocabularyedit;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,49 +19,74 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ldb.vocabulary.android.R;
-import com.ldb.vocabulary.android.category.CategoryFragment;
 
 import java.io.IOException;
 
 /**
- * Created by lsp on 2016/9/26.
+ * Created by lsp on 2016/10/1.
  */
-public class CategoryEditFragment extends Fragment implements CategoryEditContract.View{
-
-    private static final String TAG = CategoryEditFragment.class.getSimpleName();
+public class VocabularyEditFragment extends Fragment implements VocabularyEditContract.View{
+    private static final String TAG = VocabularyEditFragment.class.getSimpleName();
 
     private static final int REQUEST_IMAGE = 0;
+    private static final String ARG_CATEGORY_ID = "category_id";
+    private static final String ARG_CATEGORY_INDEX = "category_index";
 
-    private CategoryEditContract.Presenter mPresenter;
+    private String mCategoryId;
+    private int mIndex;
+    private VocabularyEditContract.Presenter mPresenter;
     private ImageView mImageView;
     private String mImagePath;
 
-    public static CategoryEditFragment newInstance(){
-        return new CategoryEditFragment();
+    public static VocabularyEditFragment newInstance(String categoryId, int index){
+        Bundle bundle = new Bundle();
+        bundle.putString(ARG_CATEGORY_ID, categoryId);
+        bundle.putInt(ARG_CATEGORY_INDEX, index);
+
+        VocabularyEditFragment fragment = new VocabularyEditFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle arg = getArguments();
+        if(arg != null){
+            mCategoryId = arg.getString(ARG_CATEGORY_ID);
+            mIndex = arg.getInt(ARG_CATEGORY_INDEX);
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.category_edit_fragment, container, false);
+        final View view = inflater.inflate(R.layout.vocabulary_edit_fragment, container, false);
 
-        ((Button) view.findViewById(R.id.image_select))
-                .setOnClickListener(new View.OnClickListener() {
+//        ((Button) view.findViewById(R.id.image_select))
+//                .setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        showFileChooser();
+//                    }
+//                });
+
+        mImageView = (ImageView) view.findViewById(R.id.vocabulary_image_for_upload);
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFileChooser();
             }
         });
 
-        mImageView = (ImageView) view.findViewById(R.id.image_for_upload);
-
-        ((Button) view.findViewById(R.id.image_upload))
+        ((Button) view.findViewById(R.id.upload_vocabulary_button))
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String categoryName =
-                                ((EditText) view.findViewById(R.id.category_name)).getText().toString();
-                        mPresenter.uploadCategory(categoryName, mImagePath);
+                                ((EditText) view.findViewById(R.id.vocabulary_name_edit)).getText().toString();
+                        mPresenter.uploadVocabulary(categoryName, mImagePath, mCategoryId, mIndex);
                     }
                 });
 
@@ -106,7 +131,7 @@ public class CategoryEditFragment extends Fragment implements CategoryEditContra
     }
 
     @Override
-    public void setPresenter(CategoryEditContract.Presenter presenter) {
+    public void setPresenter(VocabularyEditContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -119,7 +144,7 @@ public class CategoryEditFragment extends Fragment implements CategoryEditContra
     }
 
     @Override
-    public void onUploadCategory(boolean isOk, String message) {
+    public void onUploadVocabulary(boolean isOk, String message) {
         if(isOk){
             // TODO 暂时先显示成功，之后应该弹框询问是增加词汇还是返回主界面
             showMessage(message);
@@ -129,12 +154,12 @@ public class CategoryEditFragment extends Fragment implements CategoryEditContra
     }
 
     public void showError(String error) {
-        Snackbar.make(getView().findViewById(R.id.category_edit_snackbar_decor),
+        Snackbar.make(getView().findViewById(R.id.vocabulary_edit_snackbar_decor),
                 error, Snackbar.LENGTH_SHORT).show();
     }
 
     public void showMessage(String message) {
-        Snackbar.make(getView().findViewById(R.id.category_edit_snackbar_decor),
+        Snackbar.make(getView().findViewById(R.id.vocabulary_edit_snackbar_decor),
                 message, Snackbar.LENGTH_SHORT).show();
     }
 }

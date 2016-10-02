@@ -40,7 +40,8 @@ public class VocabularyActivity extends AppCompatActivity {
             mCategory = intent.getParcelableExtra(EXTRA_CATEGORY);
         }
 
-        VocabularyFragment fragment = (VocabularyFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+        VocabularyFragment fragment = (VocabularyFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
         if(fragment == null){
             fragment = VocabularyFragment.newInstance(mCategory);
             getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
